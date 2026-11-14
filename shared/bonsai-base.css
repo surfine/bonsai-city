@@ -1,0 +1,133 @@
+/* Bonsai City app page shell. The three desk game sheets share no rule
+   blocks with each other; this file only restores what the desk window
+   chrome gave every pane: the filled frame and .btn/.select controls the
+   games still mark up with desk class names. Colours come as kit tokens. */
+
+:root {
+  --touch-primary-min-height: 48px;
+  --safe-area-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+:root:not([data-appearance="standalone"]) body.kit-pane {
+  background: transparent;
+}
+
+body {
+  background: var(--kit-window-bg);
+  color: var(--kit-ink);
+  font-family: var(--kit-ui-font);
+  font-size: var(--kit-control-size);
+  -webkit-text-size-adjust: 100%;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+#app {
+  height: 100%;
+}
+
+:where(#app > .window) {
+  position: relative;
+  box-sizing: border-box;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  container-type: inline-size;
+}
+
+:where(#app > .window > .window-pane) {
+  background-color: var(--kit-pane-bg);
+  border-top: var(--kit-pane-border-top);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+:where(#app > .window > .details-bar) {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  min-height: var(--kit-control-min-height);
+  padding: 4px 10px;
+  border: var(--kit-control-line) solid var(--kit-ink);
+  border-radius: var(--kit-btn-radius);
+  background: var(--kit-btn-bg);
+  color: var(--kit-btn-fg);
+  box-shadow: var(--kit-control-inset);
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.btn.default {
+  box-shadow: var(--kit-btn-default-shadow);
+}
+
+select {
+  min-height: var(--kit-control-min-height);
+  padding: 4px 8px;
+  border: var(--kit-control-line) solid var(--kit-ink);
+  border-radius: var(--kit-btn-radius);
+  background: var(--kit-field-bg);
+  color: var(--kit-ink);
+}
+
+.select-wrap {
+  position: relative;
+  display: block;
+  min-width: 0;
+}
+
+.button-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Moved from desk 60-responsive.css: shared interior touch harvest for the
+   three game panes (the desk rule also named many other windows). */
+@media (pointer: coarse) {
+  @container (max-width: 470px) {
+    :is(.bonsai-window, .rootline-window, .joyride-window) .button-row {
+      flex-direction: column;
+      align-items: stretch;
+      flex-wrap: nowrap;
+      gap: 8px;
+    }
+
+    :is(.bonsai-window, .rootline-window, .joyride-window) .button-row > .btn.default {
+      width: 100%;
+      min-height: var(--touch-primary-min-height, 48px);
+      justify-content: center;
+      margin-left: 0;
+    }
+  }
+}

@@ -1,0 +1,1243 @@
+{
+  "id": "bonsai-city",
+  "version": "1.0.0",
+  "protocol": 1,
+  "kit": ">=1 <2",
+  "windows": [
+    {
+      "window": "bonsaiCity",
+      "app": "bonsaiCity",
+      "entry": "city/index.html",
+      "titleKey": "bonsai_city_title",
+      "windowClass": "bonsai-window openttd-window extracted-app-window",
+      "paneClass": "bonsai-pane openttd-pane",
+      "frameClass": "openttd-frame",
+      "size": {
+        "width": "1040px",
+        "height": "720px"
+      },
+      "capabilities": [
+        "state",
+        "snapshot",
+        "windows",
+        "files",
+        "appearance",
+        "access"
+      ],
+      "menus": [
+        {
+          "id": "file",
+          "labelKey": "menu_file",
+          "items": [
+            {
+              "type": "item",
+              "action": "bonsai-new-city",
+              "labelKey": "bonsai_new_city",
+              "shortcutId": "new-document",
+              "conditionId": "bonsai-new-city"
+            },
+            {
+              "type": "item",
+              "action": "bonsai-open-city",
+              "labelKey": "bonsai_open_cities",
+              "shortcutId": "open",
+              "conditionId": "bonsai-open-city"
+            },
+            {
+              "type": "item",
+              "action": "bonsai-terrain-editor",
+              "labelKey": "bonsai_terrain_editor",
+              "conditionId": "bonsai-terrain-editor"
+            },
+            {
+              "type": "item",
+              "action": "bonsai-open-scenario",
+              "labelKey": "bonsai_open_scenario",
+              "conditionId": "bonsai-open-scenario"
+            },
+            {
+              "type": "item",
+              "action": "bonsai-save",
+              "labelKey": "bonsai_save_city",
+              "shortcutId": "save",
+              "conditionId": "bonsai-save"
+            },
+            {
+              "type": "item",
+              "action": "bonsai-save-as",
+              "labelKey": "bonsai_save_as",
+              "conditionId": "bonsai-save-as"
+            },
+            {
+              "type": "item",
+              "action": "bonsai-export-sc2",
+              "labelKey": "bonsai_export_sc2",
+              "conditionId": "bonsai-export-sc2"
+            },
+            {
+              "type": "item",
+              "action": "bonsai-export-cty",
+              "labelKey": "bonsai_export_cty",
+              "conditionId": "bonsai-export-cty"
+            },
+            {
+              "type": "item",
+              "action": "bonsai-send-micropolis",
+              "labelKey": "bonsai_send_micropolis",
+              "conditionId": "bonsai-send-micropolis"
+            },
+            {
+              "type": "item",
+              "action": "bonsai-drive-streets",
+              "labelKey": "bonsai_drive_streets",
+              "conditionId": "bonsai-drive-streets"
+            },
+            {
+              "type": "item",
+              "action": "bonsai-plan-transit",
+              "labelKey": "bonsai_plan_transit_rootline",
+              "conditionId": "bonsai-plan-transit"
+            },
+            {
+              "type": "item",
+              "action": "bonsai-flip-pot",
+              "labelKey": "bonsai_flip_pot_menu",
+              "conditionId": "bonsai-flip-pot"
+            },
+            {
+              "type": "separator"
+            },
+            {
+              "type": "item",
+              "action": "close-active-window",
+              "labelKey": "close",
+              "shortcutId": "close-window",
+              "conditionId": "close-active-window"
+            }
+          ]
+        },
+        {
+          "id": "speed",
+          "labelKey": "bonsai_menu_speed",
+          "items": [
+            {
+              "type": "item",
+              "action": "bonsai-speed-0",
+              "labelKey": "bonsai_speed_pause",
+              "shortcutId": "route-question-sheet",
+              "conditionId": "bonsai-speed-0",
+              "dataset": {
+                "bonsaiSpeedChoice": "0"
+              },
+              "checkable": true
+            },
+            {
+              "type": "item",
+              "action": "bonsai-speed-0.25",
+              "labelKey": "bonsai_speed_slow",
+              "shortcutId": "route-outline",
+              "conditionId": "bonsai-speed-0.25",
+              "dataset": {
+                "bonsaiSpeedChoice": "0.25"
+              },
+              "checkable": true
+            },
+            {
+              "type": "item",
+              "action": "bonsai-speed-1",
+              "labelKey": "bonsai_speed_normal",
+              "shortcutId": "route-section-drafts",
+              "conditionId": "bonsai-speed-1",
+              "dataset": {
+                "bonsaiSpeedChoice": "1"
+              },
+              "checkable": true
+            },
+            {
+              "type": "item",
+              "action": "bonsai-speed-4",
+              "labelKey": "bonsai_speed_fast",
+              "shortcutId": "route-manuscript",
+              "conditionId": "bonsai-speed-4",
+              "dataset": {
+                "bonsaiSpeedChoice": "4"
+              },
+              "checkable": true
+            }
+          ]
+        },
+        {
+          "id": "options",
+          "labelKey": "bonsai_menu_options",
+          "items": [
+            {
+              "type": "submenu",
+              "labelKey": "bonsai_sound",
+              "items": [
+                {
+                  "type": "item",
+                  "action": "bonsai-sound-music",
+                  "labelKey": "bonsai_audio_music",
+                  "conditionId": "bonsai-sound-music"
+                },
+                {
+                  "type": "item",
+                  "action": "bonsai-sound-sfx",
+                  "labelKey": "bonsai_audio_sfx",
+                  "conditionId": "bonsai-sound-sfx"
+                },
+                {
+                  "type": "item",
+                  "action": "bonsai-sound-off",
+                  "labelKey": "bonsai_audio_off",
+                  "conditionId": "bonsai-sound-off"
+                }
+              ]
+            },
+            {
+              "type": "item",
+              "action": "bonsai-toggle-renderer",
+              "labelKey": "bonsai_renderer_switch",
+              "conditionId": "bonsai-toggle-renderer"
+            },
+            {
+              "type": "item",
+              "action": "bonsai-auto-budget",
+              "labelKey": "bonsai_auto_budget",
+              "conditionId": "bonsai-auto-budget",
+              "dataset": {
+                "bonsaiAutoBudget": "1"
+              },
+              "checkable": true
+            },
+            {
+              "type": "separator"
+            },
+            {
+              "type": "submenu",
+              "labelKey": "bonsai_menu_data_views",
+              "items": [
+                {
+                  "type": "item",
+                  "action": "bonsai-overlay-none",
+                  "labelKey": "bonsai_overlay_none",
+                  "conditionId": "bonsai-overlay-none"
+                },
+                {
+                  "type": "item",
+                  "action": "bonsai-overlay-power",
+                  "labelKey": "bonsai_overlay_power",
+                  "conditionId": "bonsai-overlay-power"
+                },
+                {
+                  "type": "item",
+                  "action": "bonsai-overlay-water",
+                  "labelKey": "bonsai_overlay_water",
+                  "conditionId": "bonsai-overlay-water"
+                },
+                {
+                  "type": "item",
+                  "action": "bonsai-overlay-traffic",
+                  "labelKey": "bonsai_overlay_traffic",
+                  "conditionId": "bonsai-overlay-traffic"
+                },
+                {
+                  "type": "item",
+                  "action": "bonsai-overlay-pollution",
+                  "labelKey": "bonsai_overlay_pollution",
+                  "conditionId": "bonsai-overlay-pollution"
+                },
+                {
+                  "type": "item",
+                  "action": "bonsai-overlay-land-value",
+                  "labelKey": "bonsai_overlay_land_value",
+                  "conditionId": "bonsai-overlay-land-value"
+                },
+                {
+                  "type": "item",
+                  "action": "bonsai-overlay-police",
+                  "labelKey": "bonsai_overlay_police",
+                  "conditionId": "bonsai-overlay-police"
+                },
+                {
+                  "type": "item",
+                  "action": "bonsai-overlay-fire",
+                  "labelKey": "bonsai_overlay_fire",
+                  "conditionId": "bonsai-overlay-fire"
+                },
+                {
+                  "type": "item",
+                  "action": "bonsai-overlay-education",
+                  "labelKey": "bonsai_overlay_education",
+                  "conditionId": "bonsai-overlay-education"
+                },
+                {
+                  "type": "item",
+                  "action": "bonsai-overlay-health",
+                  "labelKey": "bonsai_overlay_health",
+                  "conditionId": "bonsai-overlay-health"
+                },
+                {
+                  "type": "item",
+                  "action": "bonsai-overlay-transit",
+                  "labelKey": "bonsai_overlay_transit",
+                  "conditionId": "bonsai-overlay-transit"
+                }
+              ]
+            },
+            {
+              "type": "separator"
+            },
+            {
+              "type": "item",
+              "action": "bonsai-display-buildings",
+              "labelKey": "bonsai_display_buildings",
+              "conditionId": "bonsai-display-buildings",
+              "dataset": {
+                "bonsaiDisplay": "buildings"
+              },
+              "checkable": true
+            },
+            {
+              "type": "item",
+              "action": "bonsai-display-infrastructure",
+              "labelKey": "bonsai_display_infrastructure",
+              "conditionId": "bonsai-display-infrastructure",
+              "dataset": {
+                "bonsaiDisplay": "infrastructure"
+              },
+              "checkable": true
+            },
+            {
+              "type": "item",
+              "action": "bonsai-display-zones",
+              "labelKey": "bonsai_display_zones",
+              "conditionId": "bonsai-display-zones",
+              "dataset": {
+                "bonsaiDisplay": "zones"
+              },
+              "checkable": true
+            },
+            {
+              "type": "item",
+              "action": "bonsai-display-underground",
+              "labelKey": "bonsai_display_underground",
+              "conditionId": "bonsai-display-underground",
+              "dataset": {
+                "bonsaiDisplay": "underground"
+              },
+              "checkable": true
+            },
+            {
+              "type": "separator"
+            },
+            {
+              "type": "item",
+              "action": "bonsai-zoom-in",
+              "labelKey": "bonsai_zoom_in",
+              "conditionId": "bonsai-zoom-in"
+            },
+            {
+              "type": "item",
+              "action": "bonsai-zoom-out",
+              "labelKey": "bonsai_zoom_out",
+              "conditionId": "bonsai-zoom-out"
+            },
+            {
+              "type": "item",
+              "action": "bonsai-rotate-cw",
+              "labelKey": "bonsai_rotate_cw",
+              "conditionId": "bonsai-rotate-cw"
+            },
+            {
+              "type": "item",
+              "action": "bonsai-rotate-ccw",
+              "labelKey": "bonsai_rotate_ccw",
+              "conditionId": "bonsai-rotate-ccw"
+            },
+            {
+              "type": "item",
+              "action": "bonsai-center-city",
+              "labelKey": "bonsai_center",
+              "conditionId": "bonsai-center-city"
+            },
+            {
+              "type": "separator"
+            },
+            {
+              "type": "item",
+              "action": "bonsai-display-night",
+              "labelKey": "bonsai_display_night",
+              "conditionId": "bonsai-display-night",
+              "dataset": {
+                "bonsaiDisplay": "night"
+              },
+              "checkable": true
+            },
+            {
+              "type": "item",
+              "action": "bonsai-display-seasons",
+              "labelKey": "bonsai_display_seasons",
+              "conditionId": "bonsai-display-seasons",
+              "dataset": {
+                "bonsaiDisplay": "seasons"
+              },
+              "checkable": true
+            },
+            {
+              "type": "item",
+              "action": "bonsai-display-miniature",
+              "labelKey": "bonsai_display_miniature",
+              "conditionId": "bonsai-display-miniature",
+              "dataset": {
+                "bonsaiDisplay": "miniature"
+              },
+              "checkable": true
+            },
+            {
+              "type": "item",
+              "action": "bonsai-display-tank",
+              "labelKey": "bonsai_display_tank",
+              "conditionId": "bonsai-display-tank",
+              "dataset": {
+                "bonsaiDisplay": "tank"
+              },
+              "checkable": true
+            },
+            {
+              "type": "submenu",
+              "labelKey": "bonsai_study_model",
+              "items": [
+                {
+                  "type": "item",
+                  "action": "bonsai-study-none",
+                  "labelKey": "bonsai_study_none",
+                  "conditionId": "bonsai-study-none",
+                  "dataset": {
+                    "bonsaiStudy": "none"
+                  },
+                  "checkable": true
+                },
+                {
+                  "type": "item",
+                  "action": "bonsai-study-white",
+                  "labelKey": "bonsai_study_white",
+                  "conditionId": "bonsai-study-white",
+                  "dataset": {
+                    "bonsaiStudy": "white"
+                  },
+                  "checkable": true
+                },
+                {
+                  "type": "item",
+                  "action": "bonsai-study-wood",
+                  "labelKey": "bonsai_study_wood",
+                  "conditionId": "bonsai-study-wood",
+                  "dataset": {
+                    "bonsaiStudy": "wood"
+                  },
+                  "checkable": true
+                },
+                {
+                  "type": "item",
+                  "action": "bonsai-study-chipboard",
+                  "labelKey": "bonsai_study_chipboard",
+                  "conditionId": "bonsai-study-chipboard",
+                  "dataset": {
+                    "bonsaiStudy": "chipboard"
+                  },
+                  "checkable": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "disasters",
+          "labelKey": "bonsai_menu_disasters",
+          "items": [
+            {
+              "type": "item",
+              "action": "bonsai-disaster-fire",
+              "labelKey": "bonsai_tool_disaster_fire",
+              "conditionId": "bonsai-disaster-fire"
+            },
+            {
+              "type": "item",
+              "action": "bonsai-disaster-flood",
+              "labelKey": "bonsai_tool_disaster_flood",
+              "conditionId": "bonsai-disaster-flood"
+            },
+            {
+              "type": "item",
+              "action": "bonsai-disaster-tornado",
+              "labelKey": "bonsai_tool_disaster_tornado",
+              "conditionId": "bonsai-disaster-tornado"
+            },
+            {
+              "type": "item",
+              "action": "bonsai-disaster-earthquake",
+              "labelKey": "bonsai_tool_disaster_earthquake",
+              "conditionId": "bonsai-disaster-earthquake"
+            },
+            {
+              "type": "item",
+              "action": "bonsai-disaster-monster",
+              "labelKey": "bonsai_tool_disaster_monster",
+              "conditionId": "bonsai-disaster-monster"
+            },
+            {
+              "type": "item",
+              "action": "bonsai-disaster-riot",
+              "labelKey": "bonsai_tool_disaster_riot",
+              "conditionId": "bonsai-disaster-riot"
+            },
+            {
+              "type": "item",
+              "action": "bonsai-disaster-toxic-spill",
+              "labelKey": "bonsai_tool_disaster_toxic_spill",
+              "conditionId": "bonsai-disaster-toxic-spill"
+            },
+            {
+              "type": "item",
+              "action": "bonsai-disaster-meltdown",
+              "labelKey": "bonsai_tool_disaster_meltdown",
+              "conditionId": "bonsai-disaster-meltdown"
+            },
+            {
+              "type": "item",
+              "action": "bonsai-disaster-microwave-spill",
+              "labelKey": "bonsai_tool_disaster_microwave_spill",
+              "conditionId": "bonsai-disaster-microwave-spill"
+            },
+            {
+              "type": "item",
+              "action": "bonsai-disaster-volcano",
+              "labelKey": "bonsai_tool_disaster_volcano",
+              "conditionId": "bonsai-disaster-volcano"
+            },
+            {
+              "type": "item",
+              "action": "bonsai-disaster-firestorm",
+              "labelKey": "bonsai_tool_disaster_firestorm",
+              "conditionId": "bonsai-disaster-firestorm"
+            },
+            {
+              "type": "item",
+              "action": "bonsai-disaster-mass-floods",
+              "labelKey": "bonsai_tool_disaster_mass_floods",
+              "conditionId": "bonsai-disaster-mass-floods"
+            },
+            {
+              "type": "item",
+              "action": "bonsai-disaster-pollution-accident",
+              "labelKey": "bonsai_tool_disaster_pollution_accident",
+              "conditionId": "bonsai-disaster-pollution-accident"
+            },
+            {
+              "type": "item",
+              "action": "bonsai-disaster-hurricane",
+              "labelKey": "bonsai_tool_disaster_hurricane",
+              "conditionId": "bonsai-disaster-hurricane"
+            },
+            {
+              "type": "item",
+              "action": "bonsai-disaster-air-crash",
+              "labelKey": "bonsai_tool_disaster_air_crash",
+              "conditionId": "bonsai-disaster-air-crash"
+            },
+            {
+              "type": "separator"
+            },
+            {
+              "type": "item",
+              "action": "bonsai-disasters-off",
+              "labelKey": "bonsai_disasters_off",
+              "conditionId": "bonsai-disasters-off"
+            }
+          ]
+        },
+        {
+          "id": "windows",
+          "labelKey": "bonsai_menu_windows",
+          "items": [
+            {
+              "type": "item",
+              "action": "bonsai-minimap",
+              "labelKey": "bonsai_minimap",
+              "conditionId": "bonsai-minimap"
+            },
+            {
+              "type": "item",
+              "action": "bonsai-budget",
+              "labelKey": "bonsai_budget",
+              "conditionId": "bonsai-budget"
+            },
+            {
+              "type": "item",
+              "action": "bonsai-report",
+              "labelKey": "bonsai_city_report",
+              "conditionId": "bonsai-report"
+            },
+            {
+              "type": "item",
+              "action": "bonsai-ordinances",
+              "labelKey": "bonsai_ordinances",
+              "conditionId": "bonsai-ordinances"
+            },
+            {
+              "type": "item",
+              "action": "bonsai-open-graphs",
+              "labelKey": "bonsai_graphs",
+              "conditionId": "bonsai-open-graphs"
+            },
+            {
+              "type": "item",
+              "action": "bonsai-open-population",
+              "labelKey": "bonsai_population",
+              "conditionId": "bonsai-open-population"
+            },
+            {
+              "type": "item",
+              "action": "bonsai-open-industry",
+              "labelKey": "bonsai_industry",
+              "conditionId": "bonsai-open-industry"
+            },
+            {
+              "type": "item",
+              "action": "bonsai-open-neighbors",
+              "labelKey": "bonsai_neighbors",
+              "conditionId": "bonsai-open-neighbors"
+            },
+            {
+              "type": "item",
+              "action": "bonsai-open-advisors",
+              "labelKey": "bonsai_advisors",
+              "conditionId": "bonsai-open-advisors"
+            },
+            {
+              "type": "separator"
+            },
+            {
+              "type": "item",
+              "action": "bonsai-open-goals",
+              "labelKey": "bonsai_opening_goals",
+              "conditionId": "bonsai-open-goals"
+            }
+          ]
+        },
+        {
+          "id": "newspaper",
+          "labelKey": "bonsai_menu_newspaper",
+          "items": [
+            {
+              "type": "item",
+              "action": "bonsai-subscribe",
+              "labelKey": "bonsai_newspaper_subscribe",
+              "conditionId": "bonsai-subscribe"
+            },
+            {
+              "type": "item",
+              "action": "bonsai-extra",
+              "labelKey": "bonsai_newspaper_extra",
+              "conditionId": "bonsai-extra"
+            },
+            {
+              "type": "separator"
+            },
+            {
+              "type": "item",
+              "action": "bonsai-news",
+              "labelKey": "bonsai_news",
+              "conditionId": "bonsai-news"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "window": "rootline",
+      "app": "rootline",
+      "entry": "rootline/index.html",
+      "titleKey": "rootline_title",
+      "windowClass": "rootline-window openttd-window extracted-app-window",
+      "paneClass": "rootline-pane openttd-pane",
+      "frameClass": "openttd-frame",
+      "size": {
+        "width": "1000px",
+        "height": "680px"
+      },
+      "capabilities": [
+        "state",
+        "snapshot",
+        "windows"
+      ],
+      "menus": [
+        {
+          "id": "file",
+          "labelKey": "menu_file",
+          "items": [
+            {
+              "type": "item",
+              "action": "rootline-new-city",
+              "labelKey": "rootline_menu_new_city",
+              "conditionId": "rootline-new-city"
+            },
+            {
+              "type": "item",
+              "action": "rootline-open-pot",
+              "labelKey": "rootline_menu_open_pot",
+              "conditionId": "rootline-open-pot"
+            },
+            {
+              "type": "item",
+              "action": "rootline-return-pot",
+              "labelKey": "rootline_menu_return_pot",
+              "conditionId": "rootline-return-pot"
+            },
+            {
+              "type": "item",
+              "action": "rootline-save-plan",
+              "labelKey": "rootline_menu_save_plan",
+              "conditionId": "rootline-save-plan"
+            },
+            {
+              "type": "item",
+              "action": "rootline-restart",
+              "labelKey": "rootline_menu_restart",
+              "conditionId": "rootline-restart"
+            },
+            {
+              "type": "separator"
+            },
+            {
+              "type": "item",
+              "action": "close-active-window",
+              "labelKey": "close",
+              "shortcutId": "close-window",
+              "conditionId": "close-active-window"
+            }
+          ]
+        },
+        {
+          "id": "game",
+          "labelKey": "rootline_menu_game",
+          "items": [
+            {
+              "type": "item",
+              "action": "rootline-pause",
+              "labelKey": "rootline_menu_pause",
+              "conditionId": "rootline-pause"
+            },
+            {
+              "type": "item",
+              "action": "rootline-speed",
+              "labelKey": "rootline_menu_speed",
+              "conditionId": "rootline-speed"
+            },
+            {
+              "type": "separator"
+            },
+            {
+              "type": "item",
+              "action": "rootline-mode-classic",
+              "labelKey": "rootline_menu_mode_classic",
+              "conditionId": "rootline-mode-classic"
+            },
+            {
+              "type": "item",
+              "action": "rootline-mode-endless",
+              "labelKey": "rootline_menu_mode_endless",
+              "conditionId": "rootline-mode-endless"
+            },
+            {
+              "type": "separator"
+            },
+            {
+              "type": "item",
+              "action": "rootline-sound",
+              "labelKey": "rootline_menu_sound",
+              "conditionId": "rootline-sound"
+            },
+            {
+              "type": "item",
+              "action": "rootline-recenter",
+              "labelKey": "rootline_menu_recenter",
+              "conditionId": "rootline-recenter"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "window": "joyride",
+      "app": "joyride",
+      "entry": "joyride/index.html",
+      "titleKey": "joyride_title",
+      "windowClass": "joyride-window openttd-window extracted-app-window",
+      "paneClass": "joyride-pane openttd-pane",
+      "frameClass": "openttd-frame",
+      "size": {
+        "width": "680px",
+        "height": "620px"
+      },
+      "capabilities": [
+        "state",
+        "snapshot",
+        "windows",
+        "intents",
+        "receipts"
+      ],
+      "menus": [
+        {
+          "id": "file",
+          "labelKey": "menu_file",
+          "items": [
+            {
+              "type": "item",
+              "action": "joyride-open-city",
+              "labelKey": "joyride_open_city",
+              "conditionId": "joyride-open-city",
+              "shortcutId": "open"
+            },
+            {
+              "type": "item",
+              "action": "joyride-new-drive",
+              "labelKey": "joyride_new_drive",
+              "conditionId": "joyride-new-drive",
+              "shortcutId": "new-document"
+            },
+            {
+              "type": "item",
+              "action": "joyride-start-shift",
+              "labelKey": "joyride_start_shift",
+              "conditionId": "joyride-start-shift"
+            },
+            {
+              "type": "item",
+              "action": "joyride-high-scores",
+              "labelKey": "joyride_high_scores",
+              "conditionId": "joyride-high-scores"
+            },
+            {
+              "type": "separator"
+            },
+            {
+              "type": "item",
+              "action": "joyride-take-photo",
+              "labelKey": "joyride_take_photo",
+              "conditionId": "joyride-take-photo"
+            },
+            {
+              "type": "item",
+              "action": "open-image-manager",
+              "labelKey": "joyride_open_album",
+              "conditionId": "open-image-manager"
+            },
+            {
+              "type": "separator"
+            },
+            {
+              "type": "item",
+              "action": "close-active-window",
+              "labelKey": "close",
+              "shortcutId": "close-window",
+              "conditionId": "close-active-window"
+            }
+          ]
+        },
+        {
+          "id": "drive",
+          "labelKey": "joyride_menu_drive",
+          "items": [
+            {
+              "type": "item",
+              "action": "joyride-pause",
+              "labelKey": "joyride_pause",
+              "conditionId": "joyride-pause"
+            },
+            {
+              "type": "item",
+              "action": "joyride-ride-train",
+              "labelKey": "joyride_ride_train",
+              "conditionId": "joyride-ride-train"
+            },
+            {
+              "type": "separator"
+            },
+            {
+              "type": "item",
+              "action": "joyride-camera-chase",
+              "labelKey": "joyride_camera_chase",
+              "conditionId": "joyride-camera-chase",
+              "dataset": {
+                "joyrideCamera": "chase"
+              },
+              "checkable": true
+            },
+            {
+              "type": "item",
+              "action": "joyride-camera-cockpit",
+              "labelKey": "joyride_camera_cockpit",
+              "conditionId": "joyride-camera-cockpit",
+              "dataset": {
+                "joyrideCamera": "cockpit"
+              },
+              "checkable": true
+            },
+            {
+              "type": "item",
+              "action": "joyride-camera-overhead",
+              "labelKey": "joyride_camera_overhead",
+              "conditionId": "joyride-camera-overhead",
+              "dataset": {
+                "joyrideCamera": "overhead"
+              },
+              "checkable": true
+            },
+            {
+              "type": "separator"
+            },
+            {
+              "type": "item",
+              "action": "joyride-style-classic",
+              "labelKey": "joyride_style_classic",
+              "conditionId": "joyride-style-classic",
+              "dataset": {
+                "joyrideStyle": "classic"
+              },
+              "checkable": true
+            },
+            {
+              "type": "item",
+              "action": "joyride-style-glyph",
+              "labelKey": "joyride_style_glyph",
+              "conditionId": "joyride-style-glyph",
+              "dataset": {
+                "joyrideStyle": "glyph"
+              },
+              "checkable": true
+            },
+            {
+              "type": "item",
+              "action": "joyride-next-screen",
+              "labelKey": "joyride_next_screen",
+              "conditionId": "joyride-next-screen"
+            },
+            {
+              "type": "separator"
+            },
+            {
+              "type": "item",
+              "action": "joyride-radio-off",
+              "labelKey": "joyride_radio_off",
+              "conditionId": "joyride-radio-off",
+              "dataset": {
+                "joyrideStation": "off"
+              },
+              "checkable": true
+            },
+            {
+              "type": "item",
+              "action": "joyride-radio-bonsai-fm",
+              "labelKey": "joyride_radio_bonsai_fm",
+              "conditionId": "joyride-radio-bonsai-fm",
+              "dataset": {
+                "joyrideStation": "bonsai-fm"
+              },
+              "checkable": true
+            },
+            {
+              "type": "item",
+              "action": "joyride-radio-night-line",
+              "labelKey": "joyride_radio_night_line",
+              "conditionId": "joyride-radio-night-line",
+              "dataset": {
+                "joyrideStation": "night-line"
+              },
+              "checkable": true
+            },
+            {
+              "type": "item",
+              "action": "joyride-radio-static-am",
+              "labelKey": "joyride_radio_static_am",
+              "conditionId": "joyride-radio-static-am",
+              "dataset": {
+                "joyrideStation": "static-am"
+              },
+              "checkable": true
+            },
+            {
+              "type": "separator"
+            },
+            {
+              "type": "item",
+              "action": "joyride-preferences",
+              "labelKey": "joyride_preferences",
+              "conditionId": "joyride-preferences"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "intents": [],
+  "strings": {
+    "en": {
+      "bonsai_advisors": "Advisors",
+      "bonsai_audio_music": "Sound: music and effects",
+      "bonsai_audio_off": "Sound: off",
+      "bonsai_audio_sfx": "Sound: effects only",
+      "bonsai_auto_budget": "Auto-Budget",
+      "bonsai_budget": "Budget",
+      "bonsai_center": "Center on city",
+      "bonsai_city_label": "Bonsai City",
+      "bonsai_city_report": "City Report",
+      "bonsai_city_title": "Bonsai City",
+      "bonsai_disasters_off": "Disable random disasters",
+      "bonsai_display_buildings": "Show buildings",
+      "bonsai_display_infrastructure": "Show infrastructure",
+      "bonsai_display_miniature": "Miniature focus",
+      "bonsai_display_night": "Night view",
+      "bonsai_display_seasons": "Seasons",
+      "bonsai_display_tank": "Glass tank",
+      "bonsai_display_underground": "Underground view",
+      "bonsai_display_zones": "Show zones",
+      "bonsai_drive_streets": "Drive Its Streets",
+      "bonsai_export_cty": "Export .cty",
+      "bonsai_export_sc2": "Export .sc2",
+      "bonsai_flip_pot_menu": "Flip the Pot: Lay a Line-Network Plan…",
+      "bonsai_graphs": "Graphs",
+      "bonsai_industry": "Industry",
+      "bonsai_menu_data_views": "Data views",
+      "bonsai_menu_disasters": "Disasters",
+      "bonsai_menu_newspaper": "Newspaper",
+      "bonsai_menu_options": "Options",
+      "bonsai_menu_speed": "Speed",
+      "bonsai_menu_windows": "Windows",
+      "bonsai_minimap": "Minimap",
+      "bonsai_neighbors": "Neighbors",
+      "bonsai_new_city": "New City",
+      "bonsai_news": "News",
+      "bonsai_newspaper_extra": "Extra",
+      "bonsai_newspaper_subscribe": "Subscribe",
+      "bonsai_open_cities": "Open Cities…",
+      "bonsai_open_scenario": "Open Scenario…",
+      "bonsai_opening_goals": "Opening goals",
+      "bonsai_ordinances": "Ordinances",
+      "bonsai_overlay_education": "Education coverage",
+      "bonsai_overlay_fire": "Fire coverage",
+      "bonsai_overlay_health": "Health coverage",
+      "bonsai_overlay_land_value": "Land value",
+      "bonsai_overlay_none": "No overlay",
+      "bonsai_overlay_police": "Police coverage",
+      "bonsai_overlay_pollution": "Pollution",
+      "bonsai_overlay_power": "Power",
+      "bonsai_overlay_traffic": "Traffic",
+      "bonsai_overlay_transit": "Transit",
+      "bonsai_overlay_water": "Water",
+      "bonsai_plan_transit_rootline": "Plan Transit in Rootline…",
+      "bonsai_population": "Population",
+      "bonsai_renderer_switch": "2D view / 3D view",
+      "bonsai_rotate_ccw": "Rotate counterclockwise",
+      "bonsai_rotate_cw": "Rotate clockwise",
+      "bonsai_save_as": "Save As…",
+      "bonsai_save_city": "Save City",
+      "bonsai_send_micropolis": "Send to Micropolis…",
+      "bonsai_sound": "Sound",
+      "bonsai_speed_fast": "Fast",
+      "bonsai_speed_normal": "Normal",
+      "bonsai_speed_pause": "Pause",
+      "bonsai_speed_slow": "Slow",
+      "bonsai_study_chipboard": "Chipboard and white",
+      "bonsai_study_model": "Model material",
+      "bonsai_study_none": "Colour",
+      "bonsai_study_white": "White study model",
+      "bonsai_study_wood": "Basswood model",
+      "bonsai_terrain_editor": "Terrain editor",
+      "bonsai_tool_disaster_air_crash": "Plane crash",
+      "bonsai_tool_disaster_earthquake": "Earthquake",
+      "bonsai_tool_disaster_fire": "Start a fire",
+      "bonsai_tool_disaster_firestorm": "Firestorm",
+      "bonsai_tool_disaster_flood": "Flood",
+      "bonsai_tool_disaster_hurricane": "Hurricane",
+      "bonsai_tool_disaster_mass_floods": "Mass floods",
+      "bonsai_tool_disaster_meltdown": "Meltdown",
+      "bonsai_tool_disaster_microwave_spill": "Microwave spill",
+      "bonsai_tool_disaster_monster": "Monster",
+      "bonsai_tool_disaster_pollution_accident": "Pollution accident",
+      "bonsai_tool_disaster_riot": "Riot",
+      "bonsai_tool_disaster_tornado": "Tornado",
+      "bonsai_tool_disaster_toxic_spill": "Toxic spill",
+      "bonsai_tool_disaster_volcano": "Volcano",
+      "bonsai_zoom_in": "Zoom in",
+      "bonsai_zoom_out": "Zoom out",
+      "close": "Close",
+      "joyride_camera_chase": "Chase Camera",
+      "joyride_camera_cockpit": "Driver's Seat",
+      "joyride_camera_overhead": "Overhead",
+      "joyride_high_scores": "High Scores…",
+      "joyride_label": "Joyride",
+      "joyride_menu_drive": "Drive",
+      "joyride_new_drive": "New Drive",
+      "joyride_next_screen": "Next Screen",
+      "joyride_open_album": "Open the Picture Album",
+      "joyride_open_city": "Open City…",
+      "joyride_pause": "Pause",
+      "joyride_preferences": "Preferences…",
+      "joyride_radio_bonsai_fm": "Bonsai FM",
+      "joyride_radio_night_line": "Night Line",
+      "joyride_radio_off": "Radio Off",
+      "joyride_radio_static_am": "Static AM",
+      "joyride_ride_train": "Ride…",
+      "joyride_start_shift": "Start the Evening Rush",
+      "joyride_style_classic": "Classic Screen",
+      "joyride_style_glyph": "Character Night Drive",
+      "joyride_take_photo": "Take a Photo for the Picture Album",
+      "joyride_title": "Joyride",
+      "menu_file": "File",
+      "rootline_label": "Rootline",
+      "rootline_menu_game": "Game",
+      "rootline_menu_mode_classic": "Classic Mode",
+      "rootline_menu_mode_endless": "Endless Mode",
+      "rootline_menu_new_city": "New City",
+      "rootline_menu_open_pot": "Open Bonsai City…",
+      "rootline_menu_pause": "Pause / Resume",
+      "rootline_menu_recenter": "Show Whole City",
+      "rootline_menu_restart": "Restart This City",
+      "rootline_menu_return_pot": "Back to Bonsai City",
+      "rootline_menu_save_plan": "Save as a line-network plan…",
+      "rootline_menu_sound": "Sound On / Off",
+      "rootline_menu_speed": "Change Speed",
+      "rootline_title": "Rootline"
+    },
+    "zh": {
+      "bonsai_advisors": "顾问",
+      "bonsai_audio_music": "声音：音乐与音效",
+      "bonsai_audio_off": "声音：关闭",
+      "bonsai_audio_sfx": "声音：仅音效",
+      "bonsai_auto_budget": "自动预算",
+      "bonsai_budget": "预算",
+      "bonsai_center": "回到城市中心",
+      "bonsai_city_label": "盆景城市",
+      "bonsai_city_report": "城市报告",
+      "bonsai_city_title": "盆景城市",
+      "bonsai_disasters_off": "关闭灾害",
+      "bonsai_display_buildings": "显示建筑",
+      "bonsai_display_infrastructure": "显示基础设施",
+      "bonsai_display_miniature": "微缩景深",
+      "bonsai_display_night": "夜景",
+      "bonsai_display_seasons": "四季",
+      "bonsai_display_tank": "玻璃缸",
+      "bonsai_display_underground": "地下视图",
+      "bonsai_display_zones": "显示区域",
+      "bonsai_drive_streets": "到街上兜风",
+      "bonsai_export_cty": "导出 .cty",
+      "bonsai_export_sc2": "导出 .sc2",
+      "bonsai_flip_pot_menu": "翻盆：铺设线网方案……",
+      "bonsai_graphs": "图表",
+      "bonsai_industry": "工业",
+      "bonsai_menu_data_views": "数据视图",
+      "bonsai_menu_disasters": "灾害",
+      "bonsai_menu_newspaper": "报纸",
+      "bonsai_menu_options": "选项",
+      "bonsai_menu_speed": "速度",
+      "bonsai_menu_windows": "窗口",
+      "bonsai_minimap": "小地图",
+      "bonsai_neighbors": "邻市",
+      "bonsai_new_city": "新建城市",
+      "bonsai_news": "报纸",
+      "bonsai_newspaper_extra": "号外",
+      "bonsai_newspaper_subscribe": "订阅",
+      "bonsai_open_cities": "打开城市……",
+      "bonsai_open_scenario": "打开剧本……",
+      "bonsai_opening_goals": "开局目标",
+      "bonsai_ordinances": "法令",
+      "bonsai_overlay_education": "教育覆盖",
+      "bonsai_overlay_fire": "消防覆盖",
+      "bonsai_overlay_health": "医疗覆盖",
+      "bonsai_overlay_land_value": "地价",
+      "bonsai_overlay_none": "无覆盖层",
+      "bonsai_overlay_police": "警察覆盖",
+      "bonsai_overlay_pollution": "污染",
+      "bonsai_overlay_power": "电力",
+      "bonsai_overlay_traffic": "交通",
+      "bonsai_overlay_transit": "线网",
+      "bonsai_overlay_water": "供水",
+      "bonsai_plan_transit_rootline": "在根线里规划线网……",
+      "bonsai_population": "人口",
+      "bonsai_renderer_switch": "2D 视图 / 3D 视图",
+      "bonsai_rotate_ccw": "逆时针旋转",
+      "bonsai_rotate_cw": "顺时针旋转",
+      "bonsai_save_as": "另存为……",
+      "bonsai_save_city": "保存城市",
+      "bonsai_send_micropolis": "发送到 Micropolis…",
+      "bonsai_sound": "声音",
+      "bonsai_speed_fast": "快",
+      "bonsai_speed_normal": "正常",
+      "bonsai_speed_pause": "暂停",
+      "bonsai_speed_slow": "慢",
+      "bonsai_study_chipboard": "灰板白模",
+      "bonsai_study_model": "模型材质",
+      "bonsai_study_none": "彩色",
+      "bonsai_study_white": "白模",
+      "bonsai_study_wood": "木模",
+      "bonsai_terrain_editor": "地形编辑器",
+      "bonsai_tool_disaster_air_crash": "飞机坠毁",
+      "bonsai_tool_disaster_earthquake": "地震",
+      "bonsai_tool_disaster_fire": "引发火灾",
+      "bonsai_tool_disaster_firestorm": "火风暴",
+      "bonsai_tool_disaster_flood": "洪水",
+      "bonsai_tool_disaster_hurricane": "飓风",
+      "bonsai_tool_disaster_mass_floods": "大规模洪水",
+      "bonsai_tool_disaster_meltdown": "熔毁",
+      "bonsai_tool_disaster_microwave_spill": "微波泄漏",
+      "bonsai_tool_disaster_monster": "怪兽",
+      "bonsai_tool_disaster_pollution_accident": "污染事故",
+      "bonsai_tool_disaster_riot": "暴乱",
+      "bonsai_tool_disaster_tornado": "龙卷风",
+      "bonsai_tool_disaster_toxic_spill": "毒污泄漏",
+      "bonsai_tool_disaster_volcano": "火山",
+      "bonsai_zoom_in": "放大",
+      "bonsai_zoom_out": "缩小",
+      "close": "关闭",
+      "joyride_camera_chase": "追尾镜头",
+      "joyride_camera_cockpit": "车内镜头",
+      "joyride_camera_overhead": "头顶镜头",
+      "joyride_high_scores": "高分榜…",
+      "joyride_label": "兜风",
+      "joyride_menu_drive": "驾驶",
+      "joyride_new_drive": "重新出发",
+      "joyride_next_screen": "换一种画面",
+      "joyride_open_album": "打开画片簿",
+      "joyride_open_city": "打开城市…",
+      "joyride_pause": "暂停",
+      "joyride_preferences": "偏好设置…",
+      "joyride_radio_bonsai_fm": "盆景调频",
+      "joyride_radio_night_line": "夜线",
+      "joyride_radio_off": "关掉收音机",
+      "joyride_radio_static_am": "静电中波",
+      "joyride_ride_train": "坐车…",
+      "joyride_start_shift": "开始晚高峰班次",
+      "joyride_style_classic": "经典画面",
+      "joyride_style_glyph": "字符夜航",
+      "joyride_take_photo": "拍照，放进画片簿",
+      "joyride_title": "兜风",
+      "menu_file": "文件",
+      "rootline_label": "根线",
+      "rootline_menu_game": "游戏",
+      "rootline_menu_mode_classic": "经典模式",
+      "rootline_menu_mode_endless": "无尽模式",
+      "rootline_menu_new_city": "新城市",
+      "rootline_menu_open_pot": "打开盆景城市……",
+      "rootline_menu_pause": "暂停 / 继续",
+      "rootline_menu_recenter": "看全城",
+      "rootline_menu_restart": "重新开始这座城",
+      "rootline_menu_return_pot": "回到「盆景城市」",
+      "rootline_menu_save_plan": "存为线网方案…",
+      "rootline_menu_sound": "声音开 / 关",
+      "rootline_menu_speed": "切换速度",
+      "rootline_title": "根线"
+    }
+  }
+}
