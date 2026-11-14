@@ -21,6 +21,7 @@
     cancel: "取消",
     balloon_disabled_menu_host_window: "请先打开这个应用窗口。菜单本身没有可作用的对象。",
     balloon_disabled_menu_context: "这条命令需要先有一座打开的城市。",
+    balloon_bonsai_micropolis_unavailable: "这张桌上没有 Micropolis，没法把城市发送过去。",
     bonsai_city_label: "盆景城市",
     bonsai_city_title: "盆景城市",
         bonsai_city_unnamed: "未命名城市",

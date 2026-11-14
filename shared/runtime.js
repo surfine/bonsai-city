@@ -25,6 +25,7 @@
 //   state.getBytes(key)                read it back: { ...meta, bytes } with a private copy of the bytes
 //                                      (a city copied from the old desk comes back as { ...meta, saveData })
 //   state.keys(prefix)                 list the keys the group holds
+//   state.cachedKeys(prefix)           the same, synchronously, from the copy here
 //   state.onChanged(key, fn)           another frame wrote key ("city:*" matches by prefix)
 //   onLanguage(fn)                     the desk's language switch
 //   onAppearance(fn)                   the desk's appearance changed
@@ -53,7 +54,7 @@
   "use strict";
 
   // The version this tree is; the desk's pin must name the same one.
-  const VERSION = "1.0.0";
+  const VERSION = "1.0.1";
   // Keys read at start. Everything else (city:<id>, plan:<id>) is read on demand.
   const PRELOAD_KEYS = ["cities:index", "plans:index", "session"];
   const PRELOAD_PREFIXES = ["rootline:", "joyride:"];
@@ -333,6 +334,13 @@
     // game saves it again; the games' readers take either shape.
     if (typeof value.saveData === "string") return { ...value };
     return null;
+  }
+
+  // The keys held here, synchronously. Complete for the preloaded prefixes
+  // (rootline:, joyride:): they are read at start and every other frame's
+  // write to them arrives as state.changed.
+  function stateCachedKeys(prefix = "") {
+    return [...cache.keys()].filter((key) => key.startsWith(prefix) && cache.get(key) !== null).sort();
   }
 
   async function stateKeys(prefix = "") {
@@ -750,6 +758,7 @@
       setBytes: stateSetBytes,
       getBytes: stateGetBytes,
       keys: stateKeys,
+      cachedKeys: stateCachedKeys,
       onChanged: onStateChanged,
     }),
     onLanguage: (fn) => { languageListeners.push(fn); },

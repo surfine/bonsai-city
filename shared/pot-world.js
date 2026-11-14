@@ -1252,68 +1252,75 @@
   //
   // The letterbox. Everything above this fence is pure; postLetter and
   // letterbox are the only members that read or write outside their
-  // arguments. Letters live in group state ("joyride:pot-letters", "joyride:letters-queue")
-  // and are read from that state on every operation. They never open
-  // IndexedDB, never touch a city save, and never drop an old letter: a city
-  // with 30 unread letters refuses the next one. A letter with no city id
-  // waits under "unfiled".
+  // arguments. Letters live in group state, one key per letter
+  // ("joyride:letter:<box>:<id>"), and are read from that state on every
+  // operation. They never open IndexedDB, never touch a city save, and never
+  // drop an old letter: a city with 30 unread letters refuses the next one.
+  // A letter with no city id waits under "unfiled".
+  //
+  // One key per letter because three frames write the same group state and
+  // the state has no compare-and-set: a shared box read, changed and written
+  // back by two frames in the same instant kept only one frame's letter.
+  // Writes to different keys cannot overwrite each other. The box the
+  // desk and the first frame build kept under "joyride:pot-letters" is still
+  // read (never rewritten), so no earlier letter is lost.
 
   const LETTERBOX_KEY = "joyride:pot-letters";
+  const LETTER_PREFIX = "joyride:letter:";
   const JOYRIDE_QUEUE_KEY = "joyride:letters-queue";
+  const QUEUED_PREFIX = "joyride:queued:";
   const UNREAD_MAX = 30;
   const UNFILED = "unfiled";
 
-  // No in-memory mirror of the box: three frames share group state, so a
-  // cached first read would be written back stale and erase a letter another
-  // frame posted. Every operation reads the current value from group state.
-  // No group state, no letterbox: a letter is refused rather than reported
-  // posted and lost, as the desk version refused when it had no storage.
+  // No in-memory mirror: every operation reads the current value from group
+  // state. No group state, no letterbox: a letter is refused rather than
+  // reported posted and lost, as the desk version refused when it had no
+  // storage.
   function letterStore() {
     const state = root.BonsaiRuntime?.state;
     if (!state || typeof state.get !== "function" || typeof state.set !== "function") return null;
-    return {
-      getItem(key) {
-        const value = root.BonsaiRuntime?.state?.get?.(key);
-        if (value == null) return null;
-        return typeof value === "string" ? value : JSON.stringify(value);
-      },
-      setItem(key, value) {
-        try {
-          const parsed = JSON.parse(value);
-          void root.BonsaiRuntime?.state?.set?.(key, parsed);
-        } catch {
-          void root.BonsaiRuntime?.state?.set?.(key, value);
-        }
-      },
-      removeItem(key) {
-        void root.BonsaiRuntime?.state?.remove?.(key);
-      },
-    };
+    return state;
   }
 
-  // null when the box cannot be read (a box that will not parse is kept as
-  // it is rather than overwritten).
-  function readBox(store) {
+  // The old shared box, read only; {} when absent or unreadable.
+  function legacyBox(store) {
     try {
-      const raw = store.getItem(LETTERBOX_KEY);
-      if (!raw) return {};
-      const box = JSON.parse(raw);
-      return box && typeof box === "object" && !Array.isArray(box) ? box : null;
+      const value = store.get(LETTERBOX_KEY);
+      if (value == null) return {};
+      const box = typeof value === "string" ? JSON.parse(value) : value;
+      return box && typeof box === "object" && !Array.isArray(box) ? box : {};
     } catch {
-      return null;
+      return {};
     }
   }
 
-  function writeBox(store, box) {
+  function keysWith(store, prefix) {
     try {
-      store.setItem(LETTERBOX_KEY, JSON.stringify(box));
-      return true;
+      const keys = typeof store.cachedKeys === "function" ? store.cachedKeys(prefix) : [];
+      return Array.isArray(keys) ? keys : [];
     } catch {
-      return false;
+      return [];
     }
   }
 
   const boxKey = (cityId) => (isText(cityId) && cityId ? cityId : UNFILED);
+  const letterKey = (box, id) => `${LETTER_PREFIX}${encodeURIComponent(box)}:${encodeURIComponent(id)}`;
+
+  // A city's letters in the order they were posted: the old box first, then
+  // the keyed letters by when they were stored; a keyed copy of an old
+  // letter (marked read) replaces it in place.
+  function entriesOf(store, cityId) {
+    const box = boxKey(cityId);
+    const legacy = Array.isArray(legacyBox(store)[box]) ? legacyBox(store)[box].filter(Boolean) : [];
+    const keyed = keysWith(store, `${LETTER_PREFIX}${encodeURIComponent(box)}:`)
+      .map((key) => store.get(key))
+      .filter((entry) => entry && typeof entry === "object")
+      .sort((a, b) => (Number(a.storedAt) || 0) - (Number(b.storedAt) || 0));
+    const byId = new Map(keyed.map((entry) => [entry.id, entry]));
+    const merged = legacy.map((entry) => (byId.has(entry.id) ? byId.get(entry.id) : entry));
+    const legacyIds = new Set(legacy.map((entry) => entry.id));
+    return merged.concat(keyed.filter((entry) => !legacyIds.has(entry.id)));
+  }
 
   // A plain copy of an acceptable letter, its box and its id; or a reason.
   function admit(letter) {
@@ -1333,77 +1340,130 @@
     return { copy, id: letterId(copy), cityId: boxKey(copy.cityId || copy.town.cityId || copy.town.id) };
   }
 
+  let storedClock = 0;
+  // Strictly increasing within a frame, so letters posted in one
+  // millisecond keep their order.
+  const nextStoredAt = () => {
+    storedClock = Math.max(storedClock + 1, Date.now());
+    return storedClock;
+  };
+
   // { ok: true, cityId, id } when stored (or already in the box), else
   // { ok: false, reason: "invalid" | "full" | "storage" }.
   function post(letter) {
     const admitted = admit(letter);
     if (admitted.reason) return { ok: false, reason: admitted.reason };
     const store = letterStore();
-    const box = store ? readBox(store) : null;
-    if (!box) return { ok: false, reason: "storage" };
+    if (!store) return { ok: false, reason: "storage" };
     const { copy, id, cityId } = admitted;
-    const list = Array.isArray(box[cityId]) ? box[cityId] : [];
-    if (list.some((entry) => entry?.id === id)) return { ok: true, cityId, id };
-    if (list.filter((entry) => entry && !entry.read).length >= UNREAD_MAX) return { ok: false, reason: "full" };
-    box[cityId] = [...list, { ...copy, id, read: false }];
-    return writeBox(store, box) ? { ok: true, cityId, id } : { ok: false, reason: "storage" };
+    try {
+      const list = entriesOf(store, cityId);
+      if (list.some((entry) => entry?.id === id)) return { ok: true, cityId, id };
+      if (list.filter((entry) => entry && !entry.read).length >= UNREAD_MAX) return { ok: false, reason: "full" };
+      void store.set(letterKey(cityId, id), { ...copy, id, read: false, storedAt: nextStoredAt() });
+      return { ok: true, cityId, id };
+    } catch {
+      return { ok: false, reason: "storage" };
+    }
   }
 
   function postLetter(letter) {
     return post(letter).ok === true;
   }
 
+  // Without the storage bookkeeping field.
+  const plainEntry = ({ storedAt, ...entry }) => entry;
+
   function list(cityId) {
     const store = letterStore();
-    const box = store ? readBox(store) : null;
-    const entries = box && Array.isArray(box[boxKey(cityId)]) ? box[boxKey(cityId)] : [];
-    return JSON.parse(JSON.stringify(entries));
+    if (!store) return [];
+    try {
+      return JSON.parse(JSON.stringify(entriesOf(store, cityId).map(plainEntry)));
+    } catch {
+      return [];
+    }
   }
 
-  // Marks the given letters read; returns how many changed.
+  // Marks the given letters read; returns how many changed. Each letter is
+  // its own key, so two frames marking different letters cannot collide.
   function markRead(cityId, ids) {
     const wanted = new Set(Array.isArray(ids) ? ids : [ids]);
     const store = letterStore();
-    const box = store ? readBox(store) : null;
-    const entries = box && Array.isArray(box[boxKey(cityId)]) ? box[boxKey(cityId)] : null;
-    if (!entries) return 0;
+    if (!store) return 0;
     let changed = 0;
-    for (const entry of entries) {
-      if (entry && !entry.read && wanted.has(entry.id)) {
-        entry.read = true;
-        changed += 1;
+    try {
+      for (const entry of entriesOf(store, cityId)) {
+        if (entry && !entry.read && wanted.has(entry.id)) {
+          void store.set(letterKey(boxKey(cityId), entry.id), { ...entry, read: true, storedAt: Number(entry.storedAt) || nextStoredAt() });
+          changed += 1;
+        }
       }
+    } catch {
+      return changed;
     }
-    return changed && writeBox(store, box) ? changed : 0;
+    return changed;
   }
 
-  // Moves the letters Joyride queued while this file was not loaded into the
-  // box; only the letters moved leave the queue. Returns how many moved.
+  // Joyride's fallback when the box refuses for a reason that can clear
+  // later (full, storage): the letter waits under its own key until a
+  // reader drains the queue. true when it was queued.
+  function queue(letter) {
+    const store = letterStore();
+    if (!store) return false;
+    try {
+      const copy = JSON.parse(JSON.stringify(letter));
+      const id = copy?.format === LETTER_FORMAT ? copy.id : letterId(copy);
+      void store.set(`${QUEUED_PREFIX}${encodeURIComponent(id || String(nextStoredAt()))}`, { letter: copy, queuedAt: nextStoredAt() });
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
+  // Moves the letters Joyride queued into the box: the keyed queue, and the
+  // old single-key queue the desk version kept. Only the letters moved leave
+  // a queue. Returns how many moved.
   function drainJoyrideQueue() {
     const store = letterStore();
     if (!store) return 0;
-    let queue;
-    try {
-      queue = JSON.parse(store.getItem(JOYRIDE_QUEUE_KEY) || "[]");
-    } catch {
-      return 0;
-    }
-    if (!Array.isArray(queue) || !queue.length) return 0;
-    const kept = [];
     let moved = 0;
-    for (const letter of queue) {
-      if (post(letter).ok) moved += 1;
+    try {
+      const keyed = keysWith(store, QUEUED_PREFIX)
+        .map((key) => ({ key, entry: store.get(key) }))
+        .filter(({ entry }) => entry && typeof entry === "object")
+        .sort((a, b) => (Number(a.entry.queuedAt) || 0) - (Number(b.entry.queuedAt) || 0));
+      for (const { key, entry } of keyed) {
+        if (post(entry.letter).ok) {
+          moved += 1;
+          void store.remove?.(key);
+        }
+      }
+    } catch {
+      // A queued letter that could not be read stays queued.
+    }
+    let queueList;
+    try {
+      const raw = store.get(JOYRIDE_QUEUE_KEY);
+      queueList = raw == null ? [] : (typeof raw === "string" ? JSON.parse(raw) : raw);
+    } catch {
+      return moved;
+    }
+    if (!Array.isArray(queueList) || !queueList.length) return moved;
+    const kept = [];
+    let movedOld = 0;
+    for (const letter of queueList) {
+      if (post(letter).ok) movedOld += 1;
       else kept.push(letter);
     }
-    if (!moved) return 0;
+    if (!movedOld) return moved;
     try {
-      if (kept.length) store.setItem(JOYRIDE_QUEUE_KEY, JSON.stringify(kept));
-      else store.removeItem(JOYRIDE_QUEUE_KEY);
+      if (kept.length) void store.set(JOYRIDE_QUEUE_KEY, kept);
+      else void store.remove?.(JOYRIDE_QUEUE_KEY);
     } catch {
       // The moved letters are in the box; left in the queue too, they are
       // recognised by id and not stored twice on the next drain.
     }
-    return moved;
+    return moved + movedOld;
   }
 
   // ===== END SIDE EFFECTS =================================================================
@@ -1428,6 +1488,6 @@
     transit,
     letters: Object.freeze({ FORMAT: LETTER_FORMAT, VERSION: 1, FACT_KEYS, OWN_WORDS_MAX, compose, validate: validateLetter }),
     postLetter,
-    letterbox: Object.freeze({ post, list, markRead, drainJoyrideQueue }),
+    letterbox: Object.freeze({ post, list, markRead, queue, drainJoyrideQueue }),
   });
 })(globalThis);

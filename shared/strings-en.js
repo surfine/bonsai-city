@@ -21,6 +21,7 @@
     cancel: "Cancel",
     balloon_disabled_menu_host_window: "Open this application window first. The command has nothing to act on from the menu alone.",
     balloon_disabled_menu_context: "This command needs an open city first.",
+    balloon_bonsai_micropolis_unavailable: "Micropolis is not on this desk, so a city cannot be sent there.",
     bonsai_city_label: "Bonsai City",
     bonsai_city_title: "Bonsai City",
         bonsai_city_unnamed: "Untitled City",

@@ -786,17 +786,20 @@
   gap: 4px;
 }
 
+/* The name keeps about ten characters; when the six buttons would squeeze
+   it below that, they move to a line of their own instead. */
 .bonsai-window .bonsai-city-row {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 8px;
+  gap: 4px 8px;
   padding: 4px;
   border-bottom: 1px solid var(--kit-shade);
 }
 
 .bonsai-window .bonsai-city-summary {
   display: grid;
-  flex: 1 1 auto;
+  flex: 1 1 10em;
   min-width: 0;
 }
 
@@ -813,6 +816,13 @@
   display: flex;
   align-items: center;
   gap: 4px;
+}
+
+.bonsai-window .bonsai-city-row-actions {
+  flex: 0 1 auto;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  margin-inline-start: auto;
 }
 
 .bonsai-window .bonsai-browser-actions {

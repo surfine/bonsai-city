@@ -5034,8 +5034,9 @@
     if (!Object.prototype.hasOwnProperty.call(bonsaiMenuCommands, command)) {
       return { available: false, reason: "balloon_disabled_menu_context" };
     }
+    // Greyed because the desk has no Micropolis, not because no city is open.
     if (command === "send-micropolis" && !micropolisShipped()) {
-      return { available: false, reason: "balloon_disabled_menu_context" };
+      return { available: false, reason: "balloon_bonsai_micropolis_unavailable" };
     }
     if (commandsNeedingCity.has(command) && !state.current) {
       return { available: false, reason: "balloon_disabled_menu_context" };

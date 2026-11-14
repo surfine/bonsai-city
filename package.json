@@ -1,6 +1,6 @@
 {
   "name": "bonsai-city",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "description": "Bonsai City, Rootline and Joyride — three small browser city games that share one save.",
   "license": "MIT",

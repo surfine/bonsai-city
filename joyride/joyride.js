@@ -1169,6 +1169,10 @@ window.JoyrideLoaded = true;
     return t(`joyride_fact_${fact.key.replace("-", "_")}`, fact.n);
   }
   function queueLetter(letter) {
+    // Each queued letter under its own key: a shared queue read and written
+    // back by two frames at once kept only one of them.
+    const world = window.PotWorld;
+    if (typeof world?.letterbox?.queue === "function") return world.letterbox.queue(letter);
     try {
       const queue = window.BonsaiRuntime?.state.get(LETTERS_QUEUE_KEY);
       const list = Array.isArray(queue) ? queue.slice() : [];
