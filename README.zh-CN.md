@@ -2,6 +2,22 @@
 
 三个在浏览器里运行、共用一份城市存档的小游戏。
 
+## 截图
+
+在 AI System 6 桌面里实际运行时截取，左为 Classic，右为 Liquid Glass。
+
+**Bonsai City**
+
+<p><img src="screenshots/bonsaiCity-classic.png" width="49%" alt="Bonsai City · Classic"> <img src="screenshots/bonsaiCity-liquid-glass.png" width="49%" alt="Bonsai City · Liquid Glass"></p>
+
+**Rootline（根线）**
+
+<p><img src="screenshots/rootline-classic.png" width="49%" alt="Rootline（根线） · Classic"> <img src="screenshots/rootline-liquid-glass.png" width="49%" alt="Rootline（根线） · Liquid Glass"></p>
+
+**Joyride（兜风）**
+
+<p><img src="screenshots/joyride-classic.png" width="49%" alt="Joyride（兜风） · Classic"> <img src="screenshots/joyride-liquid-glass.png" width="49%" alt="Joyride（兜风） · Liquid Glass"></p>
+
 - **Bonsai City（盆景城市）**：等距视角的城市建设：划区、铺水电、长楼、维持运转。
 - **Rootline**：在成长中的城市上画地铁、BRT 和公交线；在车站挤爆之前把人送到目的地。
 - **Joyride（兜风）**：开着车穿过自己建的城（车载电台为合成音，无采样库）。

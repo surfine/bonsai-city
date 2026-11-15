@@ -2,6 +2,22 @@
 
 Three small browser games that share one city save.
 
+## Screenshots
+
+Captured running inside the AI System 6 desk: Classic on the left, Liquid Glass on the right.
+
+**Bonsai City**
+
+<p><img src="screenshots/bonsaiCity-classic.png" width="49%" alt="Bonsai City · Classic"> <img src="screenshots/bonsaiCity-liquid-glass.png" width="49%" alt="Bonsai City · Liquid Glass"></p>
+
+**Rootline**
+
+<p><img src="screenshots/rootline-classic.png" width="49%" alt="Rootline · Classic"> <img src="screenshots/rootline-liquid-glass.png" width="49%" alt="Rootline · Liquid Glass"></p>
+
+**Joyride**
+
+<p><img src="screenshots/joyride-classic.png" width="49%" alt="Joyride · Classic"> <img src="screenshots/joyride-liquid-glass.png" width="49%" alt="Joyride · Liquid Glass"></p>
+
 - **Bonsai City** — an isometric city builder: zone land, lay power and water, grow buildings, and keep the town running.
 - **Rootline** — draw metro, BRT and bus lines across a growing city; get people where they are going before a station overflows.
 - **Joyride** — take a car through the town you built (synthesized radio; no sample bank).
